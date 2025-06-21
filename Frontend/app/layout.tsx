@@ -5,6 +5,7 @@ import "./globals.css"
 import { CartProvider } from "@/components/cart-provider"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { ChatGlobe } from "@/components/chat-globe"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           <Header />
             <main>{children}</main>
           <Footer />
+          <ChatGlobe />
         </CartProvider>
       </body>
     </html>
