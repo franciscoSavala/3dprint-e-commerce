@@ -25,11 +25,35 @@ export default function CheckoutPage() {
     e.preventDefault()
     setIsProcessing(true)
 
-    // Simulate payment processing
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      const orderItems = items.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        image: item.image || '',
+        quantity: item.quantity
+      }));
 
-    alert("Order placed successfully!")
-    setIsProcessing(false)
+      const response = await fetch('http://localhost:8080/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ items: orderItems }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to place order');
+      }
+
+      alert("Order placed successfully!");
+      // Optionally clear the cart here
+    } catch (error) {
+      console.error('Error placing order:', error);
+      alert("There was an error placing your order. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
   }
 
   if (items.length === 0) {
